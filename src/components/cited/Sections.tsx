@@ -114,7 +114,7 @@ export function Problem() {
       </div>
       <div className="mt-16 grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:items-stretch">
         <Reveal className="relative min-h-80 overflow-hidden rounded-[28px] bg-secondary">
-          <img src="img/lab.webp" alt="A researcher working at a lab bench" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <img src="img/lab.webp" alt="A scholar reading in a room full of bookshelves" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-background p-4 text-sm sm:inset-x-6 sm:bottom-6">
             <p className="text-muted-foreground">Years of work. Hard to find online.</p>
           </div>
