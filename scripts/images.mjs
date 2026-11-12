@@ -9,7 +9,7 @@ const OFFLINE = process.env.OFFLINE === "1";
 
 // All free under the Unsplash License
 export const PHOTOS = {
-  lecture: { id: "1758685848783-90477ba42678", w: 1400, h: 1500, tint: "#c9ced8" },   // professor in lab coat at a chalkboard (hero)
+  lecture: { id: "1758685848783-90477ba42678", w: 1400, h: 1500, tint: "#c9ced8", pos: "north" },   // professor in lab coat at a chalkboard (hero)
   classroom: { id: "1758270704851-adff797a2010", w: 1400, h: 1000, tint: "#cfd3dc" }, // professor lecturing a class
   laptop: { id: "1747131663744-e04555be2601", w: 1400, h: 1000, tint: "#e4e2dd" },    // academic working on a laptop in his office
   scholar: { id: "1633279309534-f761427548b6", w: 1200, h: 1400, tint: "#e4e2dd" },   // scholar in hijab holding a book
@@ -37,7 +37,7 @@ for (const [name, p] of Object.entries(PHOTOS)) {
   let img;
   if (!OFFLINE) {
     try {
-      img = sharp(await fetchPhoto(p.id)).rotate().resize(p.w, p.h, { fit: "cover", position: "attention" });
+      img = sharp(await fetchPhoto(p.id)).rotate().resize(p.w, p.h, { fit: "cover", position: p.pos || "attention" });
       console.log(`photo ok ${name}`);
     } catch (e) {
       console.log(`photo FAILED ${name}: ${e.message}`);
