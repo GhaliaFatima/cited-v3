@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-navy: var(--navy);
+  --color-navy-foreground: var(--navy-foreground);
+  --color-navy-line: var(--navy-line);
+  --color-tint: var(--tint);
+  --color-paper: var(--paper);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a0f1f;
+  --primary: #2b59f3;
+  --primary-foreground: #ffffff;
+  --secondary: #f2f4f8;
+  --muted-foreground: #5b6275;
+  --tint: #eaf0fe;
+  --paper: #fbfaf7;
+  --destructive: #d23f2a;
+  --border: #e6e8ef;
+  --input: #d7dbe6;
+  --navy: #0b1230;
+  --navy-foreground: #eef1fb;
+  --navy-line: #252d55;
+  color-scheme: light;
+}
+
+* { border-color: var(--color-border); }
+html { -webkit-font-smoothing: antialiased; }
+html, body { overflow-x: clip; }
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+}
+::selection { background: var(--tint); color: var(--primary); }
+button, a { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 6px; }
+
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor, html.has-cursor * { cursor: none !important; }
+  html.has-cursor input, html.has-cursor textarea, html.has-cursor select { cursor: text !important; }
+  html.has-cursor select { cursor: pointer !important; }
+}
+
+@utility display {
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+@utility serif-em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+@utility marquee {
+  animation: marquee 40s linear infinite;
+}
+@utility caret {
+  animation: caret 1s steps(1) infinite;
+}
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes caret { 50% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee, .caret { animation: none; }
+}
