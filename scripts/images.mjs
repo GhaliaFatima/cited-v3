@@ -49,3 +49,10 @@ for (const [name, p] of Object.entries(PHOTOS)) {
   review[name] = thumb.toString("base64");
 }
 await fs.writeFile(path.join(OUT, "review.json"), JSON.stringify(review));
+// one small contact sheet for quick visual checks
+const names = Object.keys(PHOTOS);
+const tiles = await Promise.all(names.map(async (n) => ({ input: await sharp(path.join(OUT, `${n}.webp`)).resize(300, 210, { fit: "cover" }).toBuffer() })));
+const sheet = await sharp({ create: { width: 900, height: 420 * Math.ceil(names.length / 3) / 2, channels: 3, background: "#ffffff" } })
+  .composite(tiles.map((t, i) => ({ ...t, left: (i % 3) * 300, top: Math.floor(i / 3) * 210 })))
+  .jpeg({ quality: 55 }).toBuffer();
+await fs.writeFile(path.join(OUT, "sheet.json"), JSON.stringify({ names, jpg: sheet.toString("base64") }));
