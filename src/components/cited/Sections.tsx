@@ -182,7 +182,7 @@ function KnownMini() {
   );
 }
 const PILLARS = [
-  { h: "Get ", em: "found", after: "", img: "img/laptop.webp", alt: "A scholar in a hijab working on a laptop", visual: <SiteMini />, items: ["Your own scholar website", "Google SEO for your name and field", "Google knowledge panel"] },
+  { h: "Get ", em: "found", after: "", img: "img/laptop.webp", alt: "A scholar in a hijab holding a book", visual: <SiteMini />, items: ["Your own scholar website", "Google SEO for your name and field", "Google knowledge panel"] },
   { h: "Get ", em: "listed", after: " right", img: "img/classroom.webp", alt: "A professor teaching a class", visual: <LinkedMini />, items: ["ORCID, Google Scholar, Scopus and WoS author IDs", "ResearchGate, Academia.edu and LinkedIn", "Merged, corrected and linked"] },
   { h: "Get ", em: "known", after: "", img: "img/podium.webp", alt: "A speaker addressing an audience from a podium", visual: <KnownMini />, items: ["Monthly blogs on your research", "Plain language research summaries", "LinkedIn content, media and podcast pitching"] },
 ];

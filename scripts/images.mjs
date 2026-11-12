@@ -9,16 +9,16 @@ const OFFLINE = process.env.OFFLINE === "1";
 
 // All free under the Unsplash License
 export const PHOTOS = {
-  lecture: { id: "nrE0LK_qN7E", w: 1600, h: 1100, tint: "#c9ced8" },   // professor lecturing in a hall
-  classroom: { id: "vyuiyIyboc0", w: 1400, h: 1000, tint: "#cfd3dc" }, // professor lecturing a class
-  laptop: { id: "Yor0sJphKAM", w: 1200, h: 1200, tint: "#e4e2dd" },    // scholar in hijab with laptop
-  lab: { id: "cK0hjNSgnS4", w: 1400, h: 1000, tint: "#bfc8d2" },       // researcher at microscope
-  whiteboard: { id: "OJ-M0afuifg", w: 1400, h: 1000, tint: "#d3d0c9" },// presenting at a whiteboard
-  podium: { id: "XSDTr93bhBo", w: 1400, h: 1000, tint: "#9a9a9a" },    // speaking at a podium
+  lecture: { id: "1758270704602-9d4103704ad4", w: 1600, h: 1100, tint: "#c9ced8" },   // professor lecturing in a hall
+  classroom: { id: "1758270704851-adff797a2010", w: 1400, h: 1000, tint: "#cfd3dc" }, // professor lecturing a class
+  laptop: { id: "1633279309534-f761427548b6", w: 1200, h: 1200, tint: "#e4e2dd" },    // scholar in hijab holding a book (Umar ben)
+  lab: { id: "1707944745900-ae9f750f2c69", w: 1400, h: 1000, tint: "#bfc8d2" },       // researcher at microscope
+  whiteboard: { id: "1755548413928-4aaeba7c740e", w: 1400, h: 1000, tint: "#d3d0c9" },// presenting at a whiteboard
+  podium: { id: "1558541966-d1071f7329bd", w: 1400, h: 1000, tint: "#9a9a9a" },    // speaking at a podium
 };
 
 async function fetchPhoto(id) {
-  const res = await fetch(`https://unsplash.com/photos/${id}/download?force=true&w=2000`, {
+  const res = await fetch(`https://images.unsplash.com/photo-${id}?w=2000&q=80&fm=jpg`, {
     redirect: "follow",
     headers: { "user-agent": "Mozilla/5.0 (compatible; cited-site-build)" },
   });
