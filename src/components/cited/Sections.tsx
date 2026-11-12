@@ -114,7 +114,7 @@ export function Problem() {
       </div>
       <div className="mt-16 grid gap-6 lg:grid-cols-[1fr_1.1fr] lg:items-stretch">
         <Reveal className="relative min-h-80 overflow-hidden rounded-[28px] bg-secondary">
-          <img src="img/lab.webp" alt="A researcher working at a microscope in a lab" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <img src="img/lab.webp" alt="A researcher working at a lab bench" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-background p-4 text-sm sm:inset-x-6 sm:bottom-6">
             <p className="text-muted-foreground">Years of work. Hard to find online.</p>
           </div>
@@ -182,7 +182,7 @@ function KnownMini() {
   );
 }
 const PILLARS = [
-  { h: "Get ", em: "found", after: "", img: "img/laptop.webp", alt: "A scholar in a hijab holding a book", visual: <SiteMini />, items: ["Your own scholar website", "Google SEO for your name and field", "Google knowledge panel"] },
+  { h: "Get ", em: "found", after: "", img: "img/laptop.webp", alt: "An academic working on a laptop in his office", visual: <SiteMini />, items: ["Your own scholar website", "Google SEO for your name and field", "Google knowledge panel"] },
   { h: "Get ", em: "listed", after: " right", img: "img/classroom.webp", alt: "A professor teaching a class", visual: <LinkedMini />, items: ["ORCID, Google Scholar, Scopus and WoS author IDs", "ResearchGate, Academia.edu and LinkedIn", "Merged, corrected and linked"] },
   { h: "Get ", em: "known", after: "", img: "img/podium.webp", alt: "A speaker addressing an audience from a podium", visual: <KnownMini />, items: ["Monthly blogs on your research", "Plain language research summaries", "LinkedIn content, media and podcast pitching"] },
 ];
@@ -247,7 +247,7 @@ export function ResumeToBrand() {
           <motion.div style={{ y: siteY, opacity: siteO }} className="absolute bottom-0 right-0 w-[78%] overflow-hidden rounded-2xl border bg-background shadow-[0_40px_80px_-40px_rgba(11,18,48,0.5)]">
             <div className="flex items-center gap-1.5 border-b px-4 py-2.5">{[0, 1, 2].map((i) => <span key={i} className="h-2 w-2 rounded-full bg-border" />)}<span className="ml-3 rounded bg-secondary px-2 py-0.5 text-[10px] text-muted-foreground">yourname.com</span></div>
             <div className="relative h-28 overflow-hidden bg-secondary">
-              <img src="img/whiteboard.webp" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+              <img src="img/whiteboard.webp" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-[50%_20%]" />
             </div>
             <div className="p-5">
               <p className="display text-3xl">Dr. Your <span className="serif-em">Name</span><Dot /></p>
@@ -348,7 +348,7 @@ export function Ethics() {
 const WHO = [
   { t: "Professors", d: "Your full body of work, presented properly.", img: "img/lecture.webp" },
   { t: "Associate and assistant professors", d: "Build the profile that earns promotion and invitations.", img: "img/whiteboard.webp" },
-  { t: "PhD and early career", d: "Start visible from day one.", img: "img/laptop.webp" },
+  { t: "PhD and early career", d: "Start visible from day one.", img: "img/scholar.webp" },
   { t: "Universities and departments", d: "Faculty profiles and affiliation cleanup at scale.", img: "img/podium.webp", cta: true },
 ];
 export function Audience() {

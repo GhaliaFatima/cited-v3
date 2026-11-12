@@ -9,11 +9,12 @@ const OFFLINE = process.env.OFFLINE === "1";
 
 // All free under the Unsplash License
 export const PHOTOS = {
-  lecture: { id: "1758270704602-9d4103704ad4", w: 1600, h: 1100, tint: "#c9ced8" },   // professor lecturing in a hall
+  lecture: { id: "1758685848783-90477ba42678", w: 1400, h: 1500, tint: "#c9ced8" },   // professor in lab coat at a chalkboard (hero)
   classroom: { id: "1758270704851-adff797a2010", w: 1400, h: 1000, tint: "#cfd3dc" }, // professor lecturing a class
-  laptop: { id: "1633279309534-f761427548b6", w: 1200, h: 1200, tint: "#e4e2dd" },    // scholar in hijab holding a book (Umar ben)
-  lab: { id: "1707944745900-ae9f750f2c69", w: 1400, h: 1000, tint: "#bfc8d2" },       // researcher at microscope
-  whiteboard: { id: "1755548413928-4aaeba7c740e", w: 1400, h: 1000, tint: "#d3d0c9" },// presenting at a whiteboard
+  laptop: { id: "1747131663744-e04555be2601", w: 1400, h: 1000, tint: "#e4e2dd" },    // academic working on a laptop in his office
+  scholar: { id: "1633279309534-f761427548b6", w: 1200, h: 1400, tint: "#e4e2dd" },   // scholar in hijab holding a book
+  lab: { id: "1587272114422-ec88be13ab1a", w: 1400, h: 1000, tint: "#bfc8d2" },       // researcher at a lab bench (Bret Kavanaugh)
+  whiteboard: { id: "1757125736482-328a3cdd9743", w: 1200, h: 1400, tint: "#d3d0c9" },// researcher in a lab coat outdoors
   podium: { id: "1558541966-d1071f7329bd", w: 1400, h: 1000, tint: "#9a9a9a" },    // speaking at a podium
 };
 
