@@ -5,18 +5,25 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { withScreen } from "./screens.mjs";
 
+async function cropped(src, c) {
+  const img = sharp(await sharp(src).rotate().toBuffer());
+  if (!c) return img;
+  const { width: W, height: H } = await img.metadata();
+  return img.extract({ left: Math.round(c.l * W), top: Math.round(c.t * H), width: Math.round(c.w * W), height: Math.round(c.h * H) });
+}
+
 const OUT = path.resolve("public/img");
 const OFFLINE = process.env.OFFLINE === "1";
 
 // All free under the Unsplash License
 export const PHOTOS = {
-  lecture: { id: "1758691736084-4ef3e6f6a2cf", w: 1400, h: 1500, tint: "#c9ced8", pos: "north" },   // senior academic presenting at a flip chart (hero)
+  lecture: { id: "1758685848001-0396a85ba84f", w: 1400, h: 1500, tint: "#3d4b47", pos: "centre" },   // professor in front of a chalkboard of equations (hero)
   scholar: { id: "1633279309534-f761427548b6", w: 1200, h: 1400, tint: "#e4e2dd" },   // scholar in hijab holding a book
   lab: { id: "1758539412501-fbf2b62b47bf", w: 1400, h: 1000, tint: "#bfc8d2" },       // scholar surrounded by bookshelves
   whiteboard: { id: "1554765780-6bb048f2b02f", w: 1200, h: 1400, tint: "#d3d0c9" },// academic in a graduation gown
   found: { id: "1785245560368-f6d715956e5d", w: 1400, h: 800, tint: "#1c1c1c", screen: "serp", mask: "bright", fallback: { left: 387, top: 220, width: 726, height: 480 } },     // laptop showing our Google results mock
   listed: { id: "1527443195645-1133f7f28990", w: 1400, h: 800, tint: "#f2f2f2", screen: "profiles", mask: "dark", fallback: { left: 420, top: 300, width: 680, height: 388 } }, // desktop showing synced academic profiles
-  known: { id: "1781722321232-57af4f674435", w: 1400, h: 800, tint: "#1a1a2a", pos: "north" },  // speaker on a TEDx stage
+  known: { id: "1612936008632-9b6dafe9c07a", w: 1400, h: 800, tint: "#6b5440", crop: { l: 0.13, t: 0.08, w: 0.6, h: 0.514 } },  // speaker on a conference stage
   campus: { id: "1762512346988-045f4d5ad2b3", w: 1200, h: 1400, tint: "#b9b2a6" },    // university library from above
 };
 
@@ -40,7 +47,7 @@ for (const [name, p] of Object.entries(PHOTOS)) {
   if (!OFFLINE) {
     try {
       const src = await fetchPhoto(p.id);
-      img = p.screen ? await withScreen(src, p) : sharp(src).rotate().resize(p.w, p.h, { fit: "cover", position: p.pos || "attention" });
+      img = p.screen ? await withScreen(src, p) : (await cropped(src, p.crop)).resize(p.w, p.h, { fit: "cover", position: p.pos || "attention" });
       console.log(`photo ok ${name}`);
     } catch (e) {
       console.log(`photo FAILED ${name}: ${e.message}`);
