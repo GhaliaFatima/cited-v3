@@ -10,12 +10,12 @@ const OFFLINE = process.env.OFFLINE === "1";
 // All free under the Unsplash License
 export const PHOTOS = {
   lecture: { id: "1758691736084-4ef3e6f6a2cf", w: 1400, h: 1500, tint: "#c9ced8", pos: "north" },   // senior academic presenting at a flip chart (hero)
-  classroom: { id: "1661693758705-4fa65572bced", w: 1400, h: 1000, tint: "#cfd3dc" }, // graduates in academic gowns
-  laptop: { id: "1747131663744-e04555be2601", w: 1400, h: 1000, tint: "#e4e2dd" },    // academic working on a laptop in his office
   scholar: { id: "1633279309534-f761427548b6", w: 1200, h: 1400, tint: "#e4e2dd" },   // scholar in hijab holding a book
   lab: { id: "1758539412501-fbf2b62b47bf", w: 1400, h: 1000, tint: "#bfc8d2" },       // scholar surrounded by bookshelves
   whiteboard: { id: "1554765780-6bb048f2b02f", w: 1200, h: 1400, tint: "#d3d0c9" },// academic in a graduation gown
-  podium: { id: "1760420940953-3958ad9f6287", w: 1400, h: 1000, tint: "#9a9a9a" },    // speaker at an academic workshop
+  found: { id: "1735582797327-1c1ec6335156", w: 1400, h: 1000, tint: "#2a2a2a", pos: "centre" },   // phone showing Google search
+  listed: { id: "1762340278016-f5bb276dcf76", w: 1400, h: 1000, tint: "#1a1a1a", pos: "centre" },  // LinkedIn on a phone
+  known: { id: "1694881227511-ca3b9f69ea91", w: 1400, h: 1000, tint: "#d8d8d8", pos: "north" },    // podcast guest at a microphone
   campus: { id: "1762512346988-045f4d5ad2b3", w: 1200, h: 1400, tint: "#b9b2a6" },    // university library from above
 };
 
