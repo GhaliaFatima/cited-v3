@@ -2,6 +2,7 @@ import { AnimatePresence, animate, motion, useAnimationControls, useInView, useM
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Dot, Heading, Panel, Pill, Reveal } from "./ui";
+import { GoogleG } from "./Hero";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -412,5 +413,114 @@ export function Contact({ prefill }: { prefill: { name?: string; link?: string; 
         </div>
       </div>
     </Panel>
+  );
+}
+
+/* ---------- Before / after, ranking variation ---------- */
+const SERP_BEFORE = [
+  { t: "Dr. Sarah Name, Dentist in Ohio", u: "smilecare.com", me: false },
+  { t: "Name family history and records", u: "ancestry.com", me: false },
+  { t: "Staff directory, Faculty of Economics", u: "university.edu", me: false },
+  { t: "Conference speakers 2019", u: "events.org", me: false },
+  { t: "Your Name, Google Scholar", u: "scholar.google.com", me: true },
+];
+const SERP_AFTER = [
+  { t: "Dr. Your Name, Associate Professor", u: "yourname.com", me: true, lead: true },
+  { t: "Dr. Your Name, Google Scholar", u: "scholar.google.com", me: true },
+  { t: "Dr. Your Name, LinkedIn", u: "linkedin.com", me: true },
+  { t: "Dr. Your Name, ResearchGate", u: "researchgate.net", me: true },
+  { t: "Dr. Your Name, ORCID", u: "orcid.org", me: true },
+];
+const METRICS: { k: string; b: number; a: number; pre?: string; suf?: string }[] = [
+  { k: "Google position for your name", b: 27, a: 1, pre: "#" },
+  { k: "Visibility score", b: 24, a: 92, suf: "/100" },
+  { k: "Profiles linked", b: 2, a: 8, suf: "/8" },
+  { k: "Page 1 results about you", b: 0, a: 5 },
+];
+export function BeforeAfterRanking() {
+  const [after, setAfter] = useState(false);
+  const [touched, setTouched] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { amount: 0.4 });
+  useEffect(() => {
+    if (!inView || touched) return;
+    const t = setInterval(() => setAfter((v) => !v), 3800);
+    return () => clearInterval(t);
+  }, [inView, touched]);
+  const pick = (v: boolean) => { setTouched(true); setAfter(v); };
+  const rows = after ? SERP_AFTER : SERP_BEFORE;
+  return (
+    <section className="mx-auto max-w-7xl px-5 pb-28 sm:px-8 sm:pb-36">
+      <span className="inline-flex rounded-full border px-3 py-1 text-xs text-muted-foreground">Variation for review</span>
+      <div className="mt-5 grid gap-6 lg:grid-cols-[1.3fr_1fr] lg:items-end">
+        <Reveal><Heading before="Watch your name" em="climb" after=" Google" className="max-w-3xl" /></Reveal>
+        <Reveal><p className="max-w-sm text-lg text-muted-foreground lg:justify-self-end">Same scholar, same research. This is what someone sees when they search your name, before and after Cited.</p></Reveal>
+      </div>
+      <div ref={ref} className="mt-12 grid gap-5 lg:grid-cols-[1fr_1.15fr]">
+        <div className={`flex flex-col rounded-[24px] p-6 transition-colors duration-700 sm:p-8 ${after ? "bg-navy text-navy-foreground" : "border bg-paper"}`}>
+          <div className={`inline-flex self-start rounded-full p-1 text-sm ${after ? "bg-navy-line" : "border bg-background"}`}>
+            {(["Before", "After"] as const).map((l, i) => {
+              const on = after === (i === 1);
+              return (
+                <button key={l} onClick={() => pick(i === 1)} className={`relative rounded-full px-6 py-2 font-medium transition-colors ${on ? "text-white" : after ? "text-navy-foreground/60" : "text-muted-foreground"}`}>
+                  {on && <motion.span layoutId="rank-pill" className={`absolute inset-0 rounded-full ${i ? "bg-primary" : "bg-foreground"}`} transition={{ type: "spring", stiffness: 400, damping: 32 }} />}
+                  <span className="relative">{l === "After" ? "With Cited." : l}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-8 grid flex-1 grid-cols-2 gap-3">
+            {METRICS.map((m) => {
+              const v = after ? m.a : m.b;
+              const better = after;
+              return (
+                <div key={m.k} className={`flex flex-col justify-between rounded-2xl p-4 sm:p-5 ${after ? "bg-white/5" : "bg-background"}`}>
+                  <p className={`text-[13px] leading-snug ${after ? "text-navy-foreground/70" : "text-muted-foreground"}`}>{m.k}</p>
+                  <p className="mt-4 flex items-baseline gap-1">
+                    <span className={`display text-5xl sm:text-6xl ${better ? "text-white" : ""}`}>{m.pre}<Counter value={v} /></span>
+                    {m.suf && <span className={`text-sm ${after ? "text-navy-foreground/60" : "text-muted-foreground"}`}>{m.suf}</span>}
+                  </p>
+                  <div className={`mt-3 h-1.5 overflow-hidden rounded-full ${after ? "bg-navy-line" : "bg-secondary"}`}>
+                    <motion.div className={`h-full rounded-full ${after ? "bg-primary" : "bg-foreground/30"}`}
+                      animate={{ width: `${m.k.startsWith("Google") ? (after ? 100 : 8) : m.k.startsWith("Visibility") ? v : m.k.startsWith("Profiles") ? (v / 8) * 100 : (v / 5) * 100}%` }}
+                      transition={{ duration: 0.9, ease: EASE }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="rounded-[24px] border bg-background p-5 sm:p-7">
+          <div className="flex items-center gap-2">
+            <GoogleG className="h-5 w-5" />
+            <span className="text-[15px] font-medium tracking-tight"><span style={{ color: "#4285F4" }}>G</span><span style={{ color: "#EA4335" }}>o</span><span style={{ color: "#FBBC05" }}>o</span><span style={{ color: "#4285F4" }}>g</span><span style={{ color: "#34A853" }}>l</span><span style={{ color: "#EA4335" }}>e</span></span>
+          </div>
+          <div className="mt-3 flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-sm shadow-[0_2px_8px_-4px_rgba(11,18,48,0.25)]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-muted-foreground"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+            <span className="font-medium">Dr. Your Name</span>
+          </div>
+          <div className="mt-4 space-y-2">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {rows.map((r, i) => (
+                <motion.div key={(after ? "a" : "b") + r.t} layout initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.45, delay: i * 0.06, ease: EASE }}
+                  className={`flex items-start gap-3 rounded-xl px-3.5 py-3 ${r.me ? (after ? "border border-primary/40 bg-tint" : "border border-dashed border-destructive/40") : "border border-transparent"}`}>
+                  <span className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-medium ${r.me && after ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"}`}>{!after && r.me ? 27 : i + 1}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[11px] text-muted-foreground">{r.u}</p>
+                    <p className={`truncate text-[15px] font-medium leading-snug ${r.me ? (after ? "text-primary" : "text-foreground") : "text-[#1a0dab]/70"}`}>{r.t}</p>
+                    {(r as { lead?: boolean }).lead && (
+                      <div className="mt-2 flex flex-wrap gap-1.5">{["Research", "Publications", "Talks", "Contact"].map((s) => <span key={s} className="rounded-full border border-primary/30 bg-background px-2 py-0.5 text-[11px] text-primary">{s}</span>)}</div>
+                    )}
+                  </div>
+                  {r.me && <span className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-medium ${after ? "bg-primary text-primary-foreground" : "bg-destructive/10 text-destructive"}`}>{after ? "You" : "Page 3"}</span>}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+      <p className="mt-6 text-sm text-muted-foreground">Illustrative example. Real results depend on your name, field and record.</p>
+    </section>
   );
 }

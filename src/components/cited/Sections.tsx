@@ -184,8 +184,8 @@ function KnownMini() {
 }
 const PILLARS = [
   { h: "Get ", em: "found", after: "", img: "img/laptop.webp", alt: "An academic working on a laptop in his office", visual: <SiteMini />, items: ["Your own scholar website", "Google SEO for your name and field", "Google knowledge panel"] },
-  { h: "Get ", em: "listed", after: " right", img: "img/classroom.webp", alt: "A professor teaching a class", visual: <LinkedMini />, items: ["ORCID, Google Scholar, Scopus and WoS author IDs", "ResearchGate, Academia.edu and LinkedIn", "Merged, corrected and linked"] },
-  { h: "Get ", em: "known", after: "", img: "img/podium.webp", alt: "A speaker addressing an audience from a podium", visual: <KnownMini />, items: ["Monthly blogs on your research", "Plain language research summaries", "LinkedIn content, media and podcast pitching"] },
+  { h: "Get ", em: "listed", after: " right", img: "img/classroom.webp", alt: "Graduates in academic gowns", visual: <LinkedMini />, items: ["ORCID, Google Scholar, Scopus and WoS author IDs", "ResearchGate, Academia.edu and LinkedIn", "Merged, corrected and linked"] },
+  { h: "Get ", em: "known", after: "", img: "img/podium.webp", alt: "A speaker presenting at an academic workshop", visual: <KnownMini />, items: ["Monthly blogs on your research", "Plain language research summaries", "LinkedIn content, media and podcast pitching"] },
 ];
 export function WhatWeDo() {
   return (
@@ -347,10 +347,10 @@ export function Ethics() {
 
 /* ---------- Who ---------- */
 const WHO = [
-  { t: "Professors", d: "Your full body of work, presented properly.", img: "img/lecture.webp" },
+  { t: "Professors", d: "Your full body of work, presented properly.", img: "img/lab.webp" },
   { t: "Associate and assistant professors", d: "Build the profile that earns promotion and invitations.", img: "img/whiteboard.webp" },
   { t: "PhD and early career", d: "Start visible from day one.", img: "img/scholar.webp" },
-  { t: "Universities and departments", d: "Faculty profiles and affiliation cleanup at scale.", img: "img/podium.webp", cta: true },
+  { t: "Universities and departments", d: "Faculty profiles and affiliation cleanup at scale.", img: "img/campus.webp", cta: true },
 ];
 export function Audience() {
   return (

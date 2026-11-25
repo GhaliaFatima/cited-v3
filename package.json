@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/images.mjs && node scripts/candidates.mjs && vite build",
+    "build": "node scripts/images.mjs && vite build",
     "preview": "vite preview"
   },
   "keywords": [],

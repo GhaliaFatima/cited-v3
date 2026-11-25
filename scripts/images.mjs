@@ -10,12 +10,13 @@ const OFFLINE = process.env.OFFLINE === "1";
 // All free under the Unsplash License
 export const PHOTOS = {
   lecture: { id: "1758691736084-4ef3e6f6a2cf", w: 1400, h: 1500, tint: "#c9ced8", pos: "north" },   // senior academic presenting at a flip chart (hero)
-  classroom: { id: "1758270704851-adff797a2010", w: 1400, h: 1000, tint: "#cfd3dc" }, // professor lecturing a class
+  classroom: { id: "1661693758705-4fa65572bced", w: 1400, h: 1000, tint: "#cfd3dc" }, // graduates in academic gowns
   laptop: { id: "1747131663744-e04555be2601", w: 1400, h: 1000, tint: "#e4e2dd" },    // academic working on a laptop in his office
   scholar: { id: "1633279309534-f761427548b6", w: 1200, h: 1400, tint: "#e4e2dd" },   // scholar in hijab holding a book
   lab: { id: "1758539412501-fbf2b62b47bf", w: 1400, h: 1000, tint: "#bfc8d2" },       // scholar surrounded by bookshelves
-  whiteboard: { id: "1766867257943-0665537fb2dd", w: 1200, h: 1400, tint: "#d3d0c9" },// researcher presenting at a projector screen
-  podium: { id: "1558541966-d1071f7329bd", w: 1400, h: 1000, tint: "#9a9a9a" },    // speaking at a podium
+  whiteboard: { id: "1554765780-6bb048f2b02f", w: 1200, h: 1400, tint: "#d3d0c9" },// academic in a graduation gown
+  podium: { id: "1760420940953-3958ad9f6287", w: 1400, h: 1000, tint: "#9a9a9a" },    // speaker at an academic workshop
+  campus: { id: "1762512346988-045f4d5ad2b3", w: 1200, h: 1400, tint: "#b9b2a6" },    // university library from above
 };
 
 async function fetchPhoto(id) {
