@@ -354,60 +354,208 @@ export function CaseStudy() {
   );
 }
 
-/* ---------- Contact ---------- */
-const schema = z.object({
-  name: z.string().trim().min(2, "Enter your name").max(100),
-  reach: z.string().trim().min(5, "Enter your WhatsApp number or email").max(150),
-  title: z.string().trim().max(100),
-  uni: z.string().trim().max(150),
+/* ---------- Contact: guided multi-step form ---------- */
+const ROLES = [
+  { v: "Professor", d: "Established record" },
+  { v: "Associate or assistant professor", d: "Building toward promotion" },
+  { v: "PhD or early career", d: "Starting out" },
+  { v: "University or department", d: "Several scholars" },
+];
+const GOALS = ["Rank first on Google for my name", "Clean up and link my profiles", "A scholar website", "Monthly posts and summaries", "Media and speaking", "Not sure yet, advise me"];
+const CODES = [["+966", "SA"], ["+971", "AE"], ["+92", "PK"], ["+974", "QA"], ["+965", "KW"], ["+968", "OM"], ["+973", "BH"], ["+44", "UK"], ["+1", "US"]];
+const STEP_LABELS = ["About you", "Your goals", "Your details", "Review"];
+
+const detailsSchema = z.object({
+  name: z.string().trim().min(2, "Enter your full name").max(100),
+  email: z.string().trim().email("Enter a valid email").max(200),
+  phone: z.string().trim().regex(/^[0-9\s-]{7,15}$/, "Enter a valid phone number"),
   link: z.string().trim().max(300),
 });
-type Form = z.infer<typeof schema>;
+type Details = z.infer<typeof detailsSchema>;
+
+function Chip({ on, onClick, children, sub }: { on: boolean; onClick: () => void; children: React.ReactNode; sub?: string }) {
+  return (
+    <motion.button type="button" onClick={onClick} whileTap={{ scale: 0.97 }} aria-pressed={on}
+      className={`relative flex w-full items-center justify-between gap-3 rounded-2xl border px-4 py-3.5 text-left transition-colors ${on ? "border-primary bg-tint" : "bg-background hover:border-foreground/30"}`}>
+      <span>
+        <span className={`block text-[15px] font-medium ${on ? "text-primary" : ""}`}>{children}</span>
+        {sub && <span className="mt-0.5 block text-xs text-muted-foreground">{sub}</span>}
+      </span>
+      <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors ${on ? "border-primary bg-primary text-primary-foreground" : ""}`}>
+        <AnimatePresence>{on && <motion.svg initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5 9-10" /></motion.svg>}</AnimatePresence>
+      </span>
+    </motion.button>
+  );
+}
+
 export function Contact({ prefill }: { prefill: { name?: string; link?: string; plan?: string; key: number } }) {
-  const [f, setF] = useState<Form>({ name: "", reach: "", title: "", uni: "", link: "" });
+  const [step, setStep] = useState(0);
+  const [dir, setDir] = useState(1);
+  const [role, setRole] = useState("");
+  const [goals, setGoals] = useState<string[]>([]);
   const [plan, setPlan] = useState("");
-  const [err, setErr] = useState<Partial<Record<keyof Form, string>>>({});
+  const [code, setCode] = useState("+966");
+  const [d, setD] = useState<Details>({ name: "", email: "", phone: "", link: "" });
+  const [err, setErr] = useState<Partial<Record<keyof Details | "role" | "goals", string>>>({});
   const [done, setDone] = useState(false);
+
   useEffect(() => {
     if (!prefill.key) return;
-    setF((p) => ({ ...p, name: prefill.name ?? p.name, link: prefill.link ?? p.link }));
+    setD((p) => ({ ...p, name: prefill.name ?? p.name, link: prefill.link ?? p.link }));
     if (prefill.plan) setPlan(prefill.plan);
+    if (prefill.name || prefill.link) setGoals((g) => (g.length ? g : ["Rank first on Google for my name", "Clean up and link my profiles"]));
   }, [prefill]);
-  const set = (k: keyof Form, v: string) => { setF({ ...f, [k]: v }); if (err[k]) setErr({ ...err, [k]: undefined }); };
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const r = schema.safeParse(f);
-    if (!r.success) { const e2: typeof err = {}; r.error.issues.forEach((i) => (e2[i.path[0] as keyof Form] = i.message)); setErr(e2); return; }
-    setDone(true);
+
+  const go = (n: number) => { setDir(n > step ? 1 : -1); setStep(n); };
+  const next = () => {
+    if (step === 0 && !role) { setErr({ role: "Choose one to continue" }); return; }
+    if (step === 1 && !goals.length) { setErr({ goals: "Pick at least one goal" }); return; }
+    if (step === 2) {
+      const r = detailsSchema.safeParse(d);
+      if (!r.success) { const e: typeof err = {}; r.error.issues.forEach((i) => (e[i.path[0] as keyof Details] = i.message)); setErr(e); return; }
+    }
+    setErr({});
+    if (step < 3) go(step + 1); else setDone(true);
   };
-  const input = "w-full rounded-xl border bg-background px-4 py-3 text-[15px] outline-none transition-colors focus:border-primary";
-  const fields: [keyof Form, string, string, string][] = [["name", "Name", "Dr. Sara Ahmed", "sm:col-span-1"], ["reach", "WhatsApp or email", "+966 5x xxx xxxx", "sm:col-span-1"], ["title", "Title", "Associate Professor", "sm:col-span-1"], ["uni", "University", "Your university", "sm:col-span-1"], ["link", "Profile link (ORCID, Scholar or LinkedIn)", "orcid.org/0000-0000-0000-0000", "sm:col-span-2"]];
+  const setField = (k: keyof Details, v: string) => { setD({ ...d, [k]: v }); if (err[k]) setErr({ ...err, [k]: undefined }); };
+  const toggleGoal = (g: string) => { setGoals((x) => (x.includes(g) ? x.filter((y) => y !== g) : [...x, g])); setErr({}); };
+  const input = (bad?: string) => `mt-1.5 w-full rounded-xl border bg-background px-4 py-3.5 text-[15px] text-foreground outline-none transition-colors focus:border-primary focus:ring-4 focus:ring-tint ${bad ? "border-destructive" : ""}`;
+  const first = d.name.trim().split(" ").slice(0, 2).join(" ");
+
   return (
     <Panel id="contact" className="bg-primary text-primary-foreground">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-28 sm:px-8 sm:py-36 lg:grid-cols-[1fr_1.15fr] lg:items-center">
-        <Reveal>
-          <h2 className="display text-[3rem] sm:text-7xl lg:text-8xl">Let's get you <span className="serif-em">cited</span><span className="text-foreground">.</span></h2>
-          <p className="mt-6 max-w-md text-lg text-primary-foreground/85">Tell us about your research. We reply within one working day.</p>
-          {plan && <p className="mt-4 inline-flex rounded-full bg-background/15 px-4 py-1.5 text-sm">Plan: {plan}</p>}
-        </Reveal>
-        <div className="rounded-[24px] bg-background p-5 text-foreground sm:p-7">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-28 sm:px-8 sm:py-36 lg:grid-cols-[0.9fr_1.2fr] lg:items-start">
+        <div className="lg:sticky lg:top-28">
+          <Reveal>
+            <h2 className="display text-[3rem] sm:text-7xl lg:text-[5.5rem]">Let's get you <span className="serif-em">cited</span><span className="text-foreground">.</span></h2>
+            <p className="mt-6 max-w-md text-lg text-primary-foreground/85">Four quick steps. We reply within one working day, on WhatsApp or email.</p>
+          </Reveal>
+          <motion.div layout className="mt-10 hidden max-w-md rounded-[22px] bg-white/10 p-5 sm:block">
+            <p className="text-sm text-primary-foreground/70">Your request</p>
+            <div className="mt-3 space-y-2.5 text-[15px]">
+              {[["I am", role], ["I want", goals.join(", ")], ["Plan", plan], ["Name", d.name], ["Reach me", [d.email, d.phone && `${code} ${d.phone}`].filter(Boolean).join(" · ")]].map(([k, v]) => (
+                <div key={k} className="flex gap-3">
+                  <span className="w-20 shrink-0 text-primary-foreground/60">{k}</span>
+                  <AnimatePresence mode="wait">
+                    <motion.span key={v || "empty"} initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className={v ? "font-medium" : "text-primary-foreground/40"}>
+                      {v || "Not set yet"}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="rounded-[28px] bg-background p-5 text-foreground shadow-[0_40px_80px_-40px_rgba(11,18,48,0.6)] sm:p-8">
           <AnimatePresence mode="wait">
             {done ? (
-              <motion.div key="t" role="status" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="py-10 text-center">
-                <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary text-2xl text-primary-foreground">✓</span>
-                <p className="display mt-6 text-4xl">Thank you, {f.name.split(" ").slice(0, 2).join(" ")}<Dot /></p>
-                <p className="mt-3 text-muted-foreground">We will be in touch within one working day.</p>
+              <motion.div key="done" role="status" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="py-6">
+                <motion.span initial={{ scale: 0, rotate: -40 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"><motion.path d="M5 12l5 5 9-10" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.3, duration: 0.5 }} /></svg>
+                </motion.span>
+                <p className="display mt-6 text-4xl sm:text-5xl">Thank you, {first}<Dot /></p>
+                <p className="mt-3 text-muted-foreground">Here is what happens next.</p>
+                <ol className="mt-8 space-y-4">
+                  {[["Today", "We review your profiles and Google results."], ["Within one working day", `We message you on ${code} ${d.phone} or ${d.email}.`], ["Your call", "A free 20 minute consultation with your visibility audit."]].map(([t, x], i) => (
+                    <motion.li key={t} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + i * 0.15 }} className="flex gap-4">
+                      <span className="mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-tint text-sm font-medium text-primary">{i + 1}</span>
+                      <span><span className="block font-medium">{t}</span><span className="text-[15px] text-muted-foreground">{x}</span></span>
+                    </motion.li>
+                  ))}
+                </ol>
               </motion.div>
             ) : (
-              <motion.form key="f" onSubmit={submit} noValidate className="grid gap-4 sm:grid-cols-2" exit={{ opacity: 0 }}>
-                {fields.map(([k, l, ph, span]) => (
-                  <label key={k} htmlFor={`c-${k}`} className={`text-sm text-muted-foreground ${span}`}>{l}
-                    <input id={`c-${k}`} value={f[k]} placeholder={ph} onChange={(e) => set(k, e.target.value)} className={`${input} mt-1.5 text-foreground ${err[k] ? "border-destructive" : ""}`} />
-                    {err[k] && <span className="mt-1 block text-destructive">{err[k]}</span>}
-                  </label>
-                ))}
-                <button type="submit" className="rounded-full bg-foreground px-8 py-3.5 font-medium text-background transition-colors hover:bg-primary sm:col-span-2">Submit</button>
-              </motion.form>
+              <motion.div key="form" exit={{ opacity: 0 }}>
+                <div className="flex items-center gap-2">
+                  {STEP_LABELS.map((l, i) => (
+                    <button key={l} type="button" onClick={() => i < step && go(i)} className="group flex-1 text-left" aria-current={i === step ? "step" : undefined}>
+                      <div className="h-1 overflow-hidden rounded-full bg-secondary">
+                        <motion.div className="h-full rounded-full bg-primary" initial={false} animate={{ width: i < step ? "100%" : i === step ? "50%" : "0%" }} transition={{ duration: 0.5, ease: EASE }} />
+                      </div>
+                      <span className={`mt-2 hidden text-xs sm:block ${i === step ? "font-medium text-foreground" : i < step ? "text-primary" : "text-muted-foreground"}`}>{l}</span>
+                    </button>
+                  ))}
+                </div>
+                <p className="mt-6 text-sm text-muted-foreground">Step {step + 1} of 4</p>
+
+                <div className="relative mt-2 min-h-[23rem]">
+                  <AnimatePresence mode="wait" custom={dir}>
+                    <motion.div key={step} custom={dir}
+                      initial={{ opacity: 0, x: dir * 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: dir * -40 }} transition={{ duration: 0.35, ease: EASE }}
+                      onKeyDown={(e) => { if (e.key === "Enter" && (e.target as HTMLElement).tagName === "INPUT") { e.preventDefault(); next(); } }}>
+                      {step === 0 && (
+                        <>
+                          <h3 className="display text-3xl sm:text-4xl">Who are you<span className="text-primary">?</span></h3>
+                          <div className="mt-6 grid gap-2.5">
+                            {ROLES.map((r) => <Chip key={r.v} on={role === r.v} sub={r.d} onClick={() => { setRole(r.v); setErr({}); setTimeout(() => go(1), 280); }}>{r.v}</Chip>)}
+                          </div>
+                          {err.role && <p className="mt-3 text-sm text-destructive">{err.role}</p>}
+                        </>
+                      )}
+                      {step === 1 && (
+                        <>
+                          <h3 className="display text-3xl sm:text-4xl">What do you want<span className="text-primary">?</span></h3>
+                          <p className="mt-2 text-[15px] text-muted-foreground">Pick as many as you like.</p>
+                          <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
+                            {GOALS.map((g) => <Chip key={g} on={goals.includes(g)} onClick={() => toggleGoal(g)}>{g}</Chip>)}
+                          </div>
+                          {err.goals && <p className="mt-3 text-sm text-destructive">{err.goals}</p>}
+                        </>
+                      )}
+                      {step === 2 && (
+                        <>
+                          <h3 className="display text-3xl sm:text-4xl">How do we reach you<span className="text-primary">?</span></h3>
+                          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                            <label htmlFor="c-name" className="text-sm text-muted-foreground sm:col-span-2">Full name
+                              <input id="c-name" autoComplete="name" value={d.name} onChange={(e) => setField("name", e.target.value)} placeholder="Dr. Sara Ahmed" className={input(err.name)} />
+                              {err.name && <span className="mt-1 block text-destructive">{err.name}</span>}
+                            </label>
+                            <label htmlFor="c-email" className="text-sm text-muted-foreground">Email
+                              <input id="c-email" type="email" autoComplete="email" value={d.email} onChange={(e) => setField("email", e.target.value)} placeholder="sara@university.edu" className={input(err.email)} />
+                              {err.email && <span className="mt-1 block text-destructive">{err.email}</span>}
+                            </label>
+                            <label htmlFor="c-phone" className="text-sm text-muted-foreground">Phone or WhatsApp
+                              <span className="mt-1.5 flex gap-2">
+                                <select aria-label="Country code" value={code} onChange={(e) => setCode(e.target.value)} className="rounded-xl border bg-background px-2.5 text-[15px] text-foreground outline-none focus:border-primary">
+                                  {CODES.map(([c, n]) => <option key={c} value={c}>{n} {c}</option>)}
+                                </select>
+                                <input id="c-phone" type="tel" inputMode="tel" autoComplete="tel-national" value={d.phone} onChange={(e) => setField("phone", e.target.value)} placeholder="5x xxx xxxx" className={`${input(err.phone)} mt-0`} />
+                              </span>
+                              {err.phone && <span className="mt-1 block text-destructive">{err.phone}</span>}
+                            </label>
+                            <label htmlFor="c-link" className="text-sm text-muted-foreground sm:col-span-2">Profile link <span className="text-muted-foreground/70">(optional: ORCID, Scholar or LinkedIn)</span>
+                              <input id="c-link" value={d.link} onChange={(e) => setField("link", e.target.value)} placeholder="orcid.org/0000-0000-0000-0000" className={input()} />
+                            </label>
+                          </div>
+                        </>
+                      )}
+                      {step === 3 && (
+                        <>
+                          <h3 className="display text-3xl sm:text-4xl">All good<span className="text-primary">?</span></h3>
+                          <div className="mt-6 divide-y rounded-2xl border">
+                            {[["I am", role, 0], ["I want", goals.join(", "), 1], ["Name", d.name, 2], ["Email", d.email, 2], ["Phone", `${code} ${d.phone}`, 2], ["Profile", d.link || "Not added", 2], ...(plan ? [["Plan", plan, 1]] : [])].map(([k, v, s]) => (
+                              <div key={k as string} className="flex items-start gap-4 px-4 py-3 text-[15px]">
+                                <span className="w-16 shrink-0 text-muted-foreground">{k}</span>
+                                <span className="flex-1 font-medium">{v}</span>
+                                <button type="button" onClick={() => go(s as number)} className="text-sm text-primary hover:underline">Edit</button>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                <div className="mt-6 flex items-center justify-between gap-3 border-t pt-5">
+                  <button type="button" onClick={() => step > 0 && go(step - 1)} className={`rounded-full px-5 py-3 text-[15px] font-medium transition-opacity ${step === 0 ? "pointer-events-none opacity-0" : "text-muted-foreground hover:text-foreground"}`}>← Back</button>
+                  <motion.button type="button" onClick={next} whileTap={{ scale: 0.97 }} className="rounded-full bg-primary px-8 py-3.5 font-medium text-primary-foreground transition-colors hover:bg-foreground">
+                    {step === 3 ? "Submit" : "Continue →"}
+                  </motion.button>
+                </div>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
