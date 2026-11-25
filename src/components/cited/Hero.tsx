@@ -27,6 +27,17 @@ function Line({ children, delay, ready }: { children: React.ReactNode; delay: nu
   );
 }
 
+function GoogleG({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-label="Google" role="img">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+    </svg>
+  );
+}
+
 function Serp({ ready }: { ready: boolean }) {
   const q = useTyped("Dr. Your Name", 900, 75, ready);
   const [step, setStep] = useState(0);
@@ -37,8 +48,13 @@ function Serp({ ready }: { ready: boolean }) {
   }, [ready]);
   return (
     <div className="w-full rounded-2xl border bg-background p-4 shadow-[0_40px_80px_-40px_rgba(11,18,48,0.45)] sm:p-5">
-      <div className="flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted-foreground"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+      <div className="mb-3 flex items-center gap-2">
+        <GoogleG className="h-5 w-5" />
+        <span className="text-[15px] font-medium tracking-tight"><span style={{ color: "#4285F4" }}>G</span><span style={{ color: "#EA4335" }}>o</span><span style={{ color: "#FBBC05" }}>o</span><span style={{ color: "#4285F4" }}>g</span><span style={{ color: "#34A853" }}>l</span><span style={{ color: "#EA4335" }}>e</span></span>
+        <span className="ml-auto text-[11px] text-muted-foreground">Search</span>
+      </div>
+      <div className="flex items-center gap-2.5 rounded-full border px-4 py-2.5 text-sm shadow-[0_2px_8px_-4px_rgba(11,18,48,0.25)]">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-muted-foreground"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
         <span className="font-medium">{q}</span><span className="caret -ml-1 text-primary">|</span>
       </div>
       <AnimatePresence>
@@ -61,7 +77,7 @@ function Serp({ ready }: { ready: boolean }) {
       </div>
       <motion.div initial={{ opacity: 0, y: 8 }} animate={step >= 3 ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, ease: EASE }}
         className="mt-3 flex items-center justify-between rounded-lg bg-tint px-3 py-2 text-xs">
-        <span className="text-primary">First result for your name</span>
+        <span className="text-primary">#1 on Google for your name</span>
         <span className="flex items-center gap-1 font-medium text-primary"><span className="h-1.5 w-1.5 rounded-full bg-primary" />Live</span>
       </motion.div>
     </div>
