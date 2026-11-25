@@ -196,9 +196,6 @@ export function WhatWeDo() {
         {PILLARS.map((p, i) => (
           <Reveal key={p.em} delay={i * 0.08} className="h-full">
             <div className="group flex h-full flex-col overflow-hidden rounded-[24px] border bg-background">
-              <div className="relative h-56 overflow-hidden bg-secondary">
-                <img src={p.img} alt={p.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              </div>
               <div className="flex flex-1 flex-col p-6 sm:p-7">
                 <h3 className="display text-4xl">{p.h}<span className="serif-em text-primary">{p.em}</span>{p.after}<Dot /></h3>
                 <div className="my-6 rounded-2xl bg-paper p-4">{p.visual}</div>
@@ -247,10 +244,10 @@ export function ResumeToBrand() {
           </motion.div>
           <motion.div style={{ y: siteY, opacity: siteO }} className="absolute bottom-0 right-0 w-[78%] overflow-hidden rounded-2xl border bg-background shadow-[0_40px_80px_-40px_rgba(11,18,48,0.5)]">
             <div className="flex items-center gap-1.5 border-b px-4 py-2.5">{[0, 1, 2].map((i) => <span key={i} className="h-2 w-2 rounded-full bg-border" />)}<span className="ml-3 rounded bg-secondary px-2 py-0.5 text-[10px] text-muted-foreground">yourname.com</span></div>
-            <div className="relative h-28 overflow-hidden bg-secondary">
-              <img src="img/whiteboard.webp" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-[50%_20%]" />
+            <div className="flex h-24 items-end bg-navy px-5 pb-3">
+              <span className="flex h-12 w-12 translate-y-6 items-center justify-center rounded-full border-4 border-background bg-primary text-sm font-medium text-primary-foreground">YN</span>
             </div>
-            <div className="p-5">
+            <div className="p-5 pt-8">
               <p className="display text-3xl">Dr. Your <span className="serif-em">Name</span><Dot /></p>
               <p className="mt-1 text-xs text-muted-foreground">Associate Professor of Environmental Economics</p>
               <div className="mt-4 grid grid-cols-3 gap-2">
@@ -347,10 +344,10 @@ export function Ethics() {
 
 /* ---------- Who ---------- */
 const WHO = [
-  { t: "Professors", d: "Your full body of work, presented properly.", img: "img/lecture.webp" },
-  { t: "Associate and assistant professors", d: "Build the profile that earns promotion and invitations.", img: "img/whiteboard.webp" },
-  { t: "PhD and early career", d: "Start visible from day one.", img: "img/scholar.webp" },
-  { t: "Universities and departments", d: "Faculty profiles and affiliation cleanup at scale.", img: "img/podium.webp", cta: true },
+  { t: "Professors", d: "Your full body of work, presented properly.", icon: "M2 9l10-5 10 5-10 5zM6 11v5c3 2.5 9 2.5 12 0v-5" },
+  { t: "Associate and assistant professors", d: "Build the profile that earns promotion and invitations.", icon: "M3 4h18v12H3zM8 20h8M12 16v4" },
+  { t: "PhD and early career", d: "Start visible from day one.", icon: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5" },
+  { t: "Universities and departments", d: "Faculty profiles and affiliation cleanup at scale.", icon: "M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6", cta: true },
 ];
 export function Audience() {
   return (
@@ -359,12 +356,14 @@ export function Audience() {
       <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {WHO.map((w, i) => (
           <Reveal key={w.t} delay={i * 0.06} className="h-full">
-            <div data-cursor className={`group relative flex h-full min-h-[26rem] flex-col justify-end overflow-hidden rounded-[24px] bg-navy p-6 text-navy-foreground ${w.cta ? "ring-2 ring-primary" : ""}`}>
-              <img src={w.img} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-55 transition-all duration-700 group-hover:scale-105 group-hover:opacity-40" />
-              <div className="absolute inset-x-0 bottom-0 h-[58%] bg-navy/85" />
+            <div data-cursor className={`group relative flex h-full min-h-[18rem] flex-col justify-between overflow-hidden rounded-[24px] p-6 transition-colors duration-500 ${w.cta ? "bg-navy text-navy-foreground" : "border bg-background hover:border-primary"}`}>
+              {!w.cta && <div className="absolute inset-0 origin-bottom scale-y-0 bg-primary transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-y-100" />}
+              <span className={`relative flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-500 ${w.cta ? "bg-primary text-primary-foreground" : "bg-tint text-primary group-hover:bg-background"}`}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={w.icon} /></svg>
+              </span>
               <div className="relative">
-                <h3 className="display text-3xl">{w.t}<Dot /></h3>
-                <p className="mt-2 text-[15px] text-navy-foreground/80">{w.d}</p>
+                <h3 className={`display text-3xl transition-colors duration-500 ${w.cta ? "" : "group-hover:text-primary-foreground"}`}>{w.t}<span className={w.cta ? "text-primary" : "text-primary transition-colors group-hover:text-primary-foreground"}>.</span></h3>
+                <p className={`mt-2 text-[15px] transition-colors duration-500 ${w.cta ? "text-navy-foreground/80" : "text-muted-foreground group-hover:text-primary-foreground/85"}`}>{w.d}</p>
                 {w.cta && <button onClick={() => scrollToId("contact")} className="mt-4 text-sm font-medium text-white underline decoration-primary decoration-2 underline-offset-4">Talk to us about your department →</button>}
               </div>
             </div>
