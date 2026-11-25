@@ -3,6 +3,7 @@
 import sharp from "sharp";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { withScreen } from "./screens.mjs";
 
 const OUT = path.resolve("public/img");
 const OFFLINE = process.env.OFFLINE === "1";
@@ -13,9 +14,9 @@ export const PHOTOS = {
   scholar: { id: "1633279309534-f761427548b6", w: 1200, h: 1400, tint: "#e4e2dd" },   // scholar in hijab holding a book
   lab: { id: "1758539412501-fbf2b62b47bf", w: 1400, h: 1000, tint: "#bfc8d2" },       // scholar surrounded by bookshelves
   whiteboard: { id: "1554765780-6bb048f2b02f", w: 1200, h: 1400, tint: "#d3d0c9" },// academic in a graduation gown
-  found: { id: "1735582797327-1c1ec6335156", w: 1400, h: 1000, tint: "#2a2a2a", pos: "centre" },   // phone showing Google search
-  listed: { id: "1762340278016-f5bb276dcf76", w: 1400, h: 1000, tint: "#1a1a1a", pos: "centre" },  // LinkedIn on a phone
-  known: { id: "1694881227511-ca3b9f69ea91", w: 1400, h: 1000, tint: "#d8d8d8", pos: "north" },    // podcast guest at a microphone
+  found: { id: "1785245560368-f6d715956e5d", w: 1400, h: 800, tint: "#1c1c1c", screen: "serp", mask: "bright", fallback: { left: 387, top: 220, width: 726, height: 480 } },     // laptop showing our Google results mock
+  listed: { id: "1527443195645-1133f7f28990", w: 1400, h: 800, tint: "#f2f2f2", screen: "profiles", mask: "dark", fallback: { left: 420, top: 300, width: 680, height: 388 } }, // desktop showing synced academic profiles
+  known: { id: "1781722321232-57af4f674435", w: 1400, h: 800, tint: "#1a1a2a", pos: "north" },  // speaker on a TEDx stage
   campus: { id: "1762512346988-045f4d5ad2b3", w: 1200, h: 1400, tint: "#b9b2a6" },    // university library from above
 };
 
@@ -38,7 +39,8 @@ for (const [name, p] of Object.entries(PHOTOS)) {
   let img;
   if (!OFFLINE) {
     try {
-      img = sharp(await fetchPhoto(p.id)).rotate().resize(p.w, p.h, { fit: "cover", position: p.pos || "attention" });
+      const src = await fetchPhoto(p.id);
+      img = p.screen ? await withScreen(src, p) : sharp(src).rotate().resize(p.w, p.h, { fit: "cover", position: p.pos || "attention" });
       console.log(`photo ok ${name}`);
     } catch (e) {
       console.log(`photo FAILED ${name}: ${e.message}`);
