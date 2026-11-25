@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Lenis from "lenis";
 import { Hero } from "./components/cited/Hero";
-import { Audience, Ethics, FAQ, Footer, HowItWorks, Nav, PlatformWall, Pricing, ResumeToBrand, WhatWeDo } from "./components/cited/Sections";
+import { Audience, Ethics, FAQ, Footer, HowItWorks, Nav, PlatformWall, Pricing, WhatWeDo } from "./components/cited/Sections";
 import { BeforeAfter, CaseStudy, Contact, RankingDifference, VisibilityCheck } from "./components/cited/Tools";
 import { Cursor, Intro, scrollToId, setLenis } from "./components/cited/ui";
 
@@ -28,7 +28,6 @@ export default function App() {
         <Hero ready={ready} />
         <PlatformWall />
         <WhatWeDo />
-        <ResumeToBrand />
         <VisibilityCheck onAudit={(d) => { setPrefill((p) => ({ key: p.key + 1, name: d.name, link: d.link })); scrollToId("contact"); }} />
         <RankingDifference />
         <BeforeAfter />
