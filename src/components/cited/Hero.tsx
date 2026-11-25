@@ -86,13 +86,83 @@ function Serp({ ready }: { ready: boolean }) {
 
 const MANAGED = [["Google Scholar", "scholar"], ["LinkedIn", "linkedin"], ["ResearchGate", "researchgate"], ["ORCID", "orcid"]];
 
+const CODES = [["+966", "SA"], ["+971", "AE"], ["+92", "PK"], ["+974", "QA"], ["+965", "KW"], ["+968", "OM"], ["+973", "BH"], ["+44", "UK"], ["+1", "US"]];
+
+function QuickLead({ ready }: { ready: boolean }) {
+  const [f, setF] = useState({ name: "", email: "", phone: "", link: "" });
+  const [code, setCode] = useState("+966");
+  const [err, setErr] = useState<Record<string, string>>({});
+  const [done, setDone] = useState(false);
+  const set = (k: keyof typeof f, v: string) => { setF({ ...f, [k]: v }); if (err[k]) setErr({ ...err, [k]: "" }); };
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const x: Record<string, string> = {};
+    if (f.name.trim().length < 2) x.name = "Enter your name";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.trim())) x.email = "Enter a valid email";
+    if (!/^[0-9\s-]{7,15}$/.test(f.phone.trim())) x.phone = "Enter a valid number";
+    setErr(x);
+    if (!Object.keys(x).length) setDone(true);
+  };
+  const pill = (bad?: string) => `h-14 w-full rounded-full border bg-background px-5 text-[15px] outline-none transition-all placeholder:text-muted-foreground/80 focus:border-primary focus:ring-4 focus:ring-tint ${bad ? "border-destructive" : ""}`;
+  return (
+    <motion.div className="mt-12 min-w-0 lg:mt-6" initial={{ opacity: 0, y: 24 }} animate={ready ? { opacity: 1, y: 0 } : {}} transition={{ delay: 1, duration: 0.8, ease: EASE }}>
+      <div className="rounded-[32px] border bg-paper p-3 sm:p-4">
+        <AnimatePresence mode="wait">
+          {done ? (
+            <motion.div key="ok" role="status" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}
+              className="flex flex-col items-start gap-4 rounded-[24px] bg-background px-6 py-5 sm:flex-row sm:items-center">
+              <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5 9-10" /></svg>
+              </motion.span>
+              <p className="text-[15px]"><span className="font-medium">Thank you, {f.name.trim().split(" ").slice(0, 2).join(" ")}.</span> <span className="text-muted-foreground">Your free visibility audit is on its way. We will message you on {code} {f.phone} within one working day.</span></p>
+            </motion.div>
+          ) : (
+            <motion.form key="f" onSubmit={submit} noValidate exit={{ opacity: 0 }}>
+              <div className="flex flex-col gap-2.5 px-2 pb-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-[15px] font-medium">Get your free visibility audit<span className="text-primary">.</span> <span className="font-normal text-muted-foreground">We check your Google results and profiles, then send you the fixes.</span></p>
+              </div>
+              <div className="grid min-w-0 gap-2.5 md:grid-cols-2 lg:grid-cols-[1fr_1.1fr_1.15fr_1.1fr_auto] [&>*]:min-w-0">
+                <div>
+                  <input aria-label="Full name" autoComplete="name" value={f.name} onChange={(e) => set("name", e.target.value)} placeholder="Full name" className={pill(err.name)} />
+                  {err.name && <p className="mt-1 px-5 text-xs text-destructive">{err.name}</p>}
+                </div>
+                <div>
+                  <input aria-label="Email" type="email" autoComplete="email" value={f.email} onChange={(e) => set("email", e.target.value)} placeholder="Email" className={pill(err.email)} />
+                  {err.email && <p className="mt-1 px-5 text-xs text-destructive">{err.email}</p>}
+                </div>
+                <div>
+                  <div className={`flex h-14 items-center rounded-full border bg-background pl-2 transition-all focus-within:border-primary focus-within:ring-4 focus-within:ring-tint ${err.phone ? "border-destructive" : ""}`}>
+                    <select aria-label="Country code" value={code} onChange={(e) => setCode(e.target.value)} className="h-10 rounded-full bg-secondary px-2.5 text-sm outline-none">
+                      {CODES.map(([c, n]) => <option key={c} value={c}>{n} {c}</option>)}
+                    </select>
+                    <input aria-label="Phone or WhatsApp" type="tel" inputMode="tel" autoComplete="tel-national" value={f.phone} onChange={(e) => set("phone", e.target.value)} placeholder="Phone number" className="h-full min-w-0 flex-1 rounded-full bg-transparent px-3 text-[15px] outline-none placeholder:text-muted-foreground/80" />
+                  </div>
+                  {err.phone && <p className="mt-1 px-5 text-xs text-destructive">{err.phone}</p>}
+                </div>
+                <div>
+                  <input aria-label="ORCID or Google Scholar link (optional)" value={f.link} onChange={(e) => set("link", e.target.value)} placeholder="Profile link (optional)" className={pill()} />
+                </div>
+                <motion.button type="submit" whileTap={{ scale: 0.97 }} className="group flex h-14 items-center justify-center gap-2 rounded-full bg-primary px-7 text-[15px] font-medium text-primary-foreground transition-colors hover:bg-foreground md:col-span-2 lg:col-span-1">
+                  Get my free audit <span className="transition-transform group-hover:translate-x-1">→</span>
+                </motion.button>
+              </div>
+            </motion.form>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+}
+
 export function Hero({ ready }: { ready: boolean }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], reduce ? ["0%", "0%"] : ["0%", "12%"]);
   return (
-    <section ref={ref} className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-20 pt-28 sm:px-8 lg:grid-cols-[1.02fr_1fr] lg:items-center lg:gap-16 lg:pt-36">
+    <>
+    <section ref={ref} className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-6 pt-28 sm:px-8 lg:grid-cols-[1.02fr_1fr] lg:items-center lg:gap-16 lg:pt-36">
       <div>
         <h1 className="display text-[3.3rem] sm:text-7xl lg:text-[6.1rem]">
           <Line ready={ready} delay={0}>Be the scholar</Line>
@@ -125,5 +195,7 @@ export function Hero({ ready }: { ready: boolean }) {
         </div>
       </motion.div>
     </section>
+    <div className="mx-auto max-w-7xl px-5 pb-16 sm:px-8"><QuickLead ready={ready} /></div>
+    </>
   );
 }
