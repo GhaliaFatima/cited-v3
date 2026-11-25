@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useRef, useState } from "react";
 import { Dot, Heading, Panel, Pill, Reveal, Wordmark, scrollToId } from "./ui";
+import { PlatformIcon } from "./PlatformIcon";
 
 const LINKS = [
   ["Services", "services"], ["Visibility audit", "visibility"], ["Results", "results"], ["Pricing", "pricing"], ["Universities", "who"], ["FAQ", "faq"],
@@ -51,14 +52,14 @@ export function Nav() {
 
 /* ---------- Platform wall ---------- */
 const PLATFORMS = [
-  ["Google Scholar", "GS", "Public profile, correct affiliation, every paper listed."],
-  ["LinkedIn", "in", "Academic headline, polished profile, monthly posts."],
-  ["ResearchGate", "RG", "Publications claimed and duplicates merged."],
-  ["ORCID", "iD", "Verified record, linked to every other profile."],
-  ["Scopus", "Sc", "Author ID cleanup and affiliation fixes."],
-  ["Web of Science", "WoS", "Researcher profile claimed and synced."],
-  ["Academia.edu", "Ac", "Profile and papers listed properly."],
-  ["Google Search", "G", "Your website ranks first for your name."],
+  ["Google Scholar", "scholar", "Public profile, correct affiliation, every paper listed."],
+  ["LinkedIn", "linkedin", "Academic headline, polished profile, monthly posts."],
+  ["ResearchGate", "researchgate", "Publications claimed and duplicates merged."],
+  ["ORCID", "orcid", "Verified record, linked to every other profile."],
+  ["Scopus", "scopus", "Author ID cleanup and affiliation fixes."],
+  ["Web of Science", "wos", "Researcher profile claimed and synced."],
+  ["Academia.edu", "academia", "Profile and papers listed properly."],
+  ["Google Search", "google", "Your website ranks first for your name."],
 ] as const;
 
 export function PlatformWall() {
@@ -75,7 +76,7 @@ export function PlatformWall() {
               <motion.div whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300, damping: 22 }}
                 className="group flex h-full flex-col rounded-2xl border bg-background p-5 transition-colors hover:border-primary sm:p-6">
                 <div className="flex items-center justify-between">
-                  <span className="flex h-11 min-w-11 items-center justify-center rounded-xl bg-foreground px-2 text-sm font-semibold tracking-tight text-background transition-colors group-hover:bg-primary">{mark}</span>
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-foreground text-background transition-colors group-hover:bg-primary"><PlatformIcon id={mark} className="h-6 w-6" /></span>
                   <span className="text-xs text-muted-foreground transition-colors group-hover:text-primary">Managed</span>
                 </div>
                 <h3 className="mt-8 text-lg font-medium tracking-tight sm:text-xl">{name}</h3>

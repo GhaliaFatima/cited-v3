@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Dot, Pill, scrollToId } from "./ui";
+import { PlatformIcon } from "./PlatformIcon";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -67,7 +68,7 @@ function Serp({ ready }: { ready: boolean }) {
   );
 }
 
-const MANAGED = ["Google Scholar", "LinkedIn", "ResearchGate", "ORCID"];
+const MANAGED = [["Google Scholar", "scholar"], ["LinkedIn", "linkedin"], ["ResearchGate", "researchgate"], ["ORCID", "orcid"]];
 
 export function Hero({ ready }: { ready: boolean }) {
   const reduce = useReducedMotion();
@@ -93,7 +94,7 @@ export function Hero({ ready }: { ready: boolean }) {
         <motion.div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground"
           initial={{ opacity: 0 }} animate={ready ? { opacity: 1 } : {}} transition={{ delay: 0.85 }}>
           <span>Managed on</span>
-          {MANAGED.map((m) => <span key={m} className="font-medium text-foreground/80">{m}</span>)}
+          {MANAGED.map(([m, id]) => <span key={m} className="flex items-center gap-2 font-medium text-foreground/80"><PlatformIcon id={id} className="h-[18px] w-[18px] text-foreground" />{m}</span>)}
         </motion.div>
       </div>
 
