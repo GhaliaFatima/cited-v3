@@ -24,11 +24,13 @@ export const PHOTOS = {
   found: { id: "1785245560368-f6d715956e5d", w: 1400, h: 800, tint: "#1c1c1c", screen: "serp", mask: "bright", fallback: { left: 387, top: 220, width: 726, height: 480 } },     // laptop showing our Google results mock
   listed: { id: "1527443195645-1133f7f28990", w: 1400, h: 800, tint: "#f2f2f2", screen: "profiles", mask: "dark", fallback: { left: 420, top: 300, width: 680, height: 388 } }, // desktop showing synced academic profiles
   known: { id: "1612936008632-9b6dafe9c07a", w: 1400, h: 800, tint: "#6b5440", crop: { l: 0.13, t: 0.08, w: 0.6, h: 0.514 } },  // speaker on a conference stage
+  prof: { url: "https://img.magnific.com/free-photo/portrait-succesful-senior-entrrepeneur-conference-room_482257-4100.jpg", w: 900, h: 1100, tint: "#4a4a4a", pos: "north" },   // senior professor portrait (Magnific free, DC Studio)
+  phd: { url: "https://img.magnific.com/free-photo/physician-researcher-dropping-liquid-medical-glassware-using-micropipette-analyzing-coronavirus-vaccine-expertise-biologist-specialist-doctor-working-pharmacology-hospital-laboratory_482257-26491.jpg", w: 900, h: 1100, tint: "#5a6a7a", pos: "attention" },   // researcher in a lab (Magnific free, DC Studio)
   campus: { id: "1762512346988-045f4d5ad2b3", w: 1200, h: 1400, tint: "#b9b2a6" },    // university library from above
 };
 
-async function fetchPhoto(id) {
-  const res = await fetch(`https://images.unsplash.com/photo-${id}?w=2000&q=80&fm=jpg`, {
+async function fetchPhoto(id, url) {
+  const res = await fetch(url || `https://images.unsplash.com/photo-${id}?w=2000&q=80&fm=jpg`, {
     redirect: "follow",
     headers: { "user-agent": "Mozilla/5.0 (compatible; cited-site-build)" },
   });
@@ -46,7 +48,7 @@ for (const [name, p] of Object.entries(PHOTOS)) {
   let img;
   if (!OFFLINE) {
     try {
-      const src = await fetchPhoto(p.id);
+      const src = await fetchPhoto(p.id, p.url);
       img = p.screen ? await withScreen(src, p) : (await cropped(src, p.crop)).resize(p.w, p.h, { fit: "cover", position: p.pos || "attention" });
       console.log(`photo ok ${name}`);
     } catch (e) {
