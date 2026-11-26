@@ -191,7 +191,7 @@ export function Hero({ ready }: { ready: boolean }) {
 
       <motion.div className="relative" initial={{ opacity: 0, scale: 0.97 }} animate={ready ? { opacity: 1, scale: 1 } : {}} transition={{ delay: 0.25, duration: 1.1, ease: EASE }}>
         <div className="relative aspect-[4/4.4] overflow-hidden rounded-[28px] bg-secondary sm:aspect-[4/4.1]">
-          <motion.img src="img/lecture.webp" alt="A professor lecturing a full university hall" style={{ y: imgY, scale: 1.12 }}
+          <motion.img src="img/lecture.webp" alt="A speaker presenting on stage to a full auditorium" style={{ y: imgY, scale: 1.12 }}
             className="absolute inset-0 h-full w-full object-cover object-top" />
           
         </div>
