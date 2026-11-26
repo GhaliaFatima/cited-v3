@@ -11,7 +11,7 @@ for (const [k, u] of Object.entries(OPTS)) {
   try {
     const r = await fetch(u, { headers: { "user-agent": "Mozilla/5.0" } });
     const b = Buffer.from(await r.arrayBuffer());
-    const j = await sharp(b).rotate().resize(1000, 1036, { fit: "cover", position: "attention" }).jpeg({ quality: 70 }).toBuffer();
+    const j = await sharp(b).rotate().resize(1000, 1036, { fit: "cover", position: "attention" }).jpeg({ quality: k === "3" ? 92 : 70 }).toBuffer();
     await fs.writeFile(`public/img/hero-${k}.json`, JSON.stringify({ jpg: j.toString("base64") }));
     console.log("hero ok", k);
   } catch (e) { console.log("hero fail", k, e.message); }
