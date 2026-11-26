@@ -17,7 +17,7 @@ const OFFLINE = process.env.OFFLINE === "1";
 
 // All free under the Unsplash License
 export const PHOTOS = {
-  lecture: { id: "1649920444788-5412d54051a7", w: 1400, h: 1500, tint: "#1b2a4a", pos: "centre" },   // speaker silhouette on stage, audience from behind (hero)
+  lecture: { id: "1770097286213-6d6fc60f4cdf", w: 1400, h: 1500, tint: "#3a3530", crop: { l: 0.14, t: 0, w: 0.62, h: 1 } },   // Asian professor speaking on stage, audience in front (hero)
   scholar: { id: "1633279309534-f761427548b6", w: 1200, h: 1400, tint: "#e4e2dd" },   // scholar in hijab holding a book
   lab: { id: "1758539412501-fbf2b62b47bf", w: 1400, h: 1000, tint: "#bfc8d2" },       // scholar surrounded by bookshelves
   whiteboard: { id: "1554765780-6bb048f2b02f", w: 1200, h: 1400, tint: "#d3d0c9" },// academic in a graduation gown
