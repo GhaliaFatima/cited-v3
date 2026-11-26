@@ -360,8 +360,10 @@ export function Audience() {
         {WHO.map((w, i) => (
           <Reveal key={w.t} delay={i * 0.06} className="h-full">
             <div data-cursor className={`group relative flex h-full min-h-[26rem] flex-col justify-end overflow-hidden rounded-[24px] bg-navy p-6 text-navy-foreground ${w.cta ? "ring-2 ring-primary" : ""}`}>
-              <img src={w.img} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-55 transition-all duration-700 group-hover:scale-105 group-hover:opacity-40" />
-              <div className="absolute inset-x-0 bottom-0 h-[58%] bg-navy/85" />
+              <div className="absolute inset-x-0 top-0 h-[55%] overflow-hidden">
+                <img src={w.img} alt="" loading="lazy" className="h-full w-full object-cover object-[center_30%] transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-navy" />
+              </div>
               <div className="relative">
                 <h3 className="display text-3xl">{w.t}<Dot /></h3>
                 <p className="mt-2 text-[15px] text-navy-foreground/80">{w.d}</p>
