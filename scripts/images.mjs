@@ -20,7 +20,6 @@ export const PHOTOS = {
   lecture: { id: "1544531586-fde5298cdd40", w: 1400, h: 1500, tint: "#2a2a2a", pos: "centre", crop: { l: 0.27, t: 0.3, w: 0.434, h: 0.7 } },   // speaker facing a packed auditorium (hero)
   scholar: { id: "1633279309534-f761427548b6", w: 1200, h: 1400, tint: "#e4e2dd" },   // scholar in hijab holding a book
   lab: { id: "1758539412501-fbf2b62b47bf", w: 1400, h: 1000, tint: "#bfc8d2" },       // scholar surrounded by bookshelves
-  associate: { id: "1758685848147-e1e149bf2603", w: 1200, h: 1400, tint: "#2f3b35", pos: "north" },  // woman professor at her desk, chalkboard behind
   whiteboard: { id: "1554765780-6bb048f2b02f", w: 1200, h: 1400, tint: "#d3d0c9" },// academic in a graduation gown
   found: { id: "1785245560368-f6d715956e5d", w: 1400, h: 800, tint: "#1c1c1c", screen: "serp", mask: "bright", fallback: { left: 387, top: 220, width: 726, height: 480 } },     // laptop showing our Google results mock
   listed: { id: "1527443195645-1133f7f28990", w: 1400, h: 800, tint: "#f2f2f2", screen: "profiles", mask: "dark", fallback: { left: 420, top: 300, width: 680, height: 388 } }, // desktop showing synced academic profiles

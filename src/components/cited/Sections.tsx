@@ -348,7 +348,7 @@ export function Ethics() {
 /* ---------- Who ---------- */
 const WHO = [
   { t: "Professors", d: "Your full body of work, presented properly.", img: "img/prof.webp" },
-  { t: "Associate and assistant professors", d: "Build the profile that earns promotion and invitations.", img: "img/associate.webp" },
+  { t: "Associate and assistant professors", d: "Build the profile that earns promotion and invitations.", img: "img/whiteboard.webp" },
   { t: "PhD and early career", d: "Start visible from day one.", img: "img/phd.webp" },
   { t: "Universities and departments", d: "Faculty profiles and affiliation cleanup at scale.", img: "img/campus.webp", cta: true },
 ];
