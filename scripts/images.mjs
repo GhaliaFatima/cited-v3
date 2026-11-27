@@ -23,7 +23,7 @@ export const PHOTOS = {
   whiteboard: { id: "1554765780-6bb048f2b02f", w: 1200, h: 1400, tint: "#d3d0c9" },// academic in a graduation gown
   found: { id: "1785245560368-f6d715956e5d", w: 1400, h: 800, tint: "#1c1c1c", screen: "serp", mask: "bright", fallback: { left: 387, top: 220, width: 726, height: 480 } },     // laptop showing our Google results mock
   listed: { id: "1527443195645-1133f7f28990", w: 1400, h: 800, tint: "#f2f2f2", screen: "profiles", mask: "dark", fallback: { left: 420, top: 300, width: 680, height: 388 } }, // desktop showing synced academic profiles
-  known: { url: "https://img.magnific.com/free-photo/corporate-businessman-giving-presentation-large-audience_53876-101865.jpg", w: 1400, h: 800, tint: "#1d4fd8", pos: "west" },  // speaker at a podium, audience from behind (Magnific free)
+  known: { id: "1544531586-fde5298cdd40", w: 1400, h: 800, tint: "#2a2a2a", pos: "attention" },  // speaker facing a packed auditorium
   prof: { url: "https://img.magnific.com/free-photo/portrait-succesful-senior-entrrepeneur-conference-room_482257-4100.jpg", w: 1200, h: 840, tint: "#4a4a4a", pos: "north" },   // senior professor portrait (Magnific free, DC Studio)
   phd: { url: "https://img.magnific.com/free-photo/physician-researcher-dropping-liquid-medical-glassware-using-micropipette-analyzing-coronavirus-vaccine-expertise-biologist-specialist-doctor-working-pharmacology-hospital-laboratory_482257-26491.jpg", w: 1200, h: 840, tint: "#5a6a7a", pos: "north" },   // researcher in a lab (Magnific free, DC Studio)
   campus: { id: "1762512346988-045f4d5ad2b3", w: 1200, h: 840, tint: "#b9b2a6" },    // university library from above

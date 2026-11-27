@@ -185,7 +185,7 @@ function KnownMini() {
 const PILLARS = [
   { h: "Get ", em: "found", after: "", img: "img/found.webp", alt: "A laptop showing Google results for a scholar’s name", visual: <SiteMini />, items: ["Your own scholar website", "Google SEO for your name and field", "Google knowledge panel"] },
   { h: "Get ", em: "listed", after: " right", img: "img/listed.webp", alt: "A desktop showing Google Scholar, ORCID, Scopus, ResearchGate and LinkedIn profiles", visual: <LinkedMini />, items: ["ORCID, Google Scholar, Scopus and WoS author IDs", "ResearchGate, Academia.edu and LinkedIn", "Merged, corrected and linked"] },
-  { h: "Get ", em: "known", after: "", img: "img/known.webp", alt: "A speaker addressing a full audience from a podium", visual: <KnownMini />, items: ["Monthly blogs on your research", "Plain language research summaries", "LinkedIn content, media and podcast pitching"] },
+  { h: "Get ", em: "known", after: "", img: "img/known.webp", alt: "A speaker addressing a packed auditorium", visual: <KnownMini />, items: ["Monthly blogs on your research", "Plain language research summaries", "LinkedIn content, media and podcast pitching"] },
 ];
 export function WhatWeDo() {
   return (
