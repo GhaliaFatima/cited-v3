@@ -1,7 +1,7 @@
 // Temporary: labelled contact sheet of candidate photos for review (preview builds only).
 import sharp from "sharp";
 import fs from "node:fs/promises";
-const IDS = ["1575220352017-e7e9536b1d37", "1700082990053-e9f50584eda0", "1645613110646-a7239d71b7c2", "1640928714827-5fb1a94df2e2", "pexels:207692", "pexels:207684"];
+const IDS = ["1758685848147-e1e149bf2603", "1758685848208-e108b6af94cc", "1758685848001-0396a85ba84f", "1758685845906-6f705cde4fb7", "1758685848238-001e0cc182ae", "1758270704349-1ad411aa1281"];
 if (process.env.OFFLINE === "1") process.exit(0);
 const W = 300, H = 220, C = 3;
 const tiles = [];

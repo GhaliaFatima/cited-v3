@@ -26,7 +26,7 @@ export const PHOTOS = {
   known: { url: "https://img.magnific.com/free-photo/corporate-businessman-giving-presentation-large-audience_53876-101865.jpg", w: 1400, h: 800, tint: "#1d4fd8", pos: "west" },  // speaker at a podium, audience from behind (Magnific free)
   prof: { url: "https://img.magnific.com/free-photo/portrait-succesful-senior-entrrepeneur-conference-room_482257-4100.jpg", w: 1200, h: 840, tint: "#4a4a4a", pos: "north" },   // senior professor portrait (Magnific free, DC Studio)
   phd: { url: "https://img.magnific.com/free-photo/physician-researcher-dropping-liquid-medical-glassware-using-micropipette-analyzing-coronavirus-vaccine-expertise-biologist-specialist-doctor-working-pharmacology-hospital-laboratory_482257-26491.jpg", w: 1200, h: 840, tint: "#5a6a7a", pos: "north" },   // researcher in a lab (Magnific free, DC Studio)
-  campus: { id: "1762512346988-045f4d5ad2b3", w: 1200, h: 840, tint: "#b9b2a6" },    // university library from above
+  campus: { url: "https://images.pexels.com/photos/207684/pexels-photo-207684.jpeg?w=2400", w: 1200, h: 840, tint: "#8a4a3a", pos: "centre" },    // brick university hall with tower (Pexels)
 };
 
 async function fetchPhoto(id, url) {
