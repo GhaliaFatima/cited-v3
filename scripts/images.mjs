@@ -26,7 +26,7 @@ export const PHOTOS = {
   listed: { id: "1527443195645-1133f7f28990", w: 1400, h: 800, tint: "#f2f2f2", screen: "profiles", mask: "dark", fallback: { left: 420, top: 300, width: 680, height: 388 } }, // desktop showing synced academic profiles
   known: { url: "https://img.magnific.com/free-photo/corporate-businessman-giving-presentation-large-audience_53876-101865.jpg", w: 1400, h: 800, tint: "#1d4fd8", pos: "west" },  // speaker at a podium, audience from behind (Magnific free)
   prof: { url: "https://img.magnific.com/free-photo/portrait-succesful-senior-entrrepeneur-conference-room_482257-4100.jpg", w: 1200, h: 840, tint: "#4a4a4a", pos: "north" },   // senior professor portrait (Magnific free, DC Studio)
-  phd: { url: "https://img.magnific.com/free-photo/physician-researcher-dropping-liquid-medical-glassware-using-micropipette-analyzing-coronavirus-vaccine-expertise-biologist-specialist-doctor-working-pharmacology-hospital-laboratory_482257-26491.jpg", w: 1200, h: 1400, tint: "#5a6a7a", pos: "attention" },   // researcher in a lab (Magnific free, DC Studio)
+  phd: { url: "https://img.magnific.com/free-photo/physician-researcher-dropping-liquid-medical-glassware-using-micropipette-analyzing-coronavirus-vaccine-expertise-biologist-specialist-doctor-working-pharmacology-hospital-laboratory_482257-26491.jpg", w: 1200, h: 1400, tint: "#5a6a7a", pos: "north" },   // researcher in a lab (Magnific free, DC Studio)
   campus: { url: "https://images.pexels.com/photos/207684/pexels-photo-207684.jpeg?w=2400", w: 1200, h: 840, tint: "#8a4a3a", pos: "centre" },    // brick university hall with tower (Pexels)
 };
 
