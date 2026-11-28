@@ -27,6 +27,7 @@ export const PHOTOS = {
   prof: { url: "https://img.magnific.com/free-photo/portrait-succesful-senior-entrrepeneur-conference-room_482257-4100.jpg", w: 1200, h: 840, tint: "#4a4a4a", pos: "north" },   // senior professor portrait (Magnific free, DC Studio)
   phd: { url: "https://img.magnific.com/free-photo/physician-researcher-dropping-liquid-medical-glassware-using-micropipette-analyzing-coronavirus-vaccine-expertise-biologist-specialist-doctor-working-pharmacology-hospital-laboratory_482257-26491.jpg", w: 1200, h: 1400, tint: "#5a6a7a", pos: "north" },   // researcher in a lab (Magnific free, DC Studio)
   haga: { url: "https://www.hagaelimam.com/wp-content/uploads/2026/08/new-haga-banner-img.webp", w: 1000, h: 1250, tint: "#0B1230", pos: "north" },   // Prof. Dr. Haga Elimam (her own site)
+  haga2: { url: "https://www.hagaelimam.com/wp-content/uploads/2026/08/Haga-about-img.webp", w: 1000, h: 1250, tint: "#0B1230", pos: "north" },
   sarah: { id: "1758518727888-ffa196002e59", w: 900, h: 1125, tint: "#cfcac4", pos: "north" },   // placeholder scholar
   james: { id: "1758685734565-fc8ff6e9ffcc", w: 900, h: 1125, tint: "#2f3b35", pos: "north" },   // placeholder scholar
   omar: { id: "1758876204244-930299843f07", w: 900, h: 1125, tint: "#2a2a2a", pos: "north" },    // placeholder scholar
