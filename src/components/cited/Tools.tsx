@@ -587,19 +587,18 @@ const METRICS: { k: string; b: number; a: number; pre?: string; suf?: string }[]
 ];
 export function BeforeAfterRanking() {
   const [after, setAfter] = useState(false);
-  const [touched, setTouched] = useState(false);
+  const [tick, setTick] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
   useEffect(() => {
-    if (!inView || touched) return;
-    const t = setInterval(() => setAfter((v) => !v), 3800);
+    if (!inView) return;
+    const t = setInterval(() => setAfter((v) => !v), 3000);
     return () => clearInterval(t);
-  }, [inView, touched]);
-  const pick = (v: boolean) => { setTouched(true); setAfter(v); };
+  }, [inView, tick]);
+  const pick = (v: boolean) => { setAfter(v); setTick((n) => n + 1); };
   const rows = after ? SERP_AFTER : SERP_BEFORE;
   return (
     <section className="mx-auto max-w-7xl px-5 pb-28 sm:px-8 sm:pb-36">
-      <span className="inline-flex rounded-full border px-3 py-1 text-xs text-muted-foreground">Variation for review</span>
       <div className="mt-5 grid gap-6 lg:grid-cols-[1.3fr_1fr] lg:items-end">
         <Reveal><Heading before="Watch your name" em="climb" after=" Google" className="max-w-3xl" /></Reveal>
         <Reveal><p className="max-w-sm text-lg text-muted-foreground lg:justify-self-end">Same scholar, same research. This is what someone sees when they search your name, before and after Cited.</p></Reveal>
