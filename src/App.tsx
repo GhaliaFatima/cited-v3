@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Lenis from "lenis";
 import { Hero } from "./components/cited/Hero";
 import { Audience, Ethics, FAQ, Footer, HowItWorks, Nav, PlatformWall, Pricing, WhatWeDo } from "./components/cited/Sections";
+import { OurScholars } from "./components/cited/Work";
 import { BeforeAfterRanking, CaseStudy, Contact, RankingDifference, VisibilityCheck } from "./components/cited/Tools";
 import { Cursor, Intro, scrollToId, setLenis } from "./components/cited/ui";
 
@@ -33,6 +34,7 @@ export default function App() {
         <BeforeAfterRanking />
         <HowItWorks />
         <Ethics />
+        <OurScholars />
         <CaseStudy />
         <Audience />
         <Pricing onPick={(plan) => { setPrefill((p) => ({ key: p.key + 1, plan })); scrollToId("contact"); }} />
