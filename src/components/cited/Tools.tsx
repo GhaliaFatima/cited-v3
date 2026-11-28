@@ -592,7 +592,7 @@ export function BeforeAfterRanking() {
   const inView = useInView(ref, { amount: 0.4 });
   useEffect(() => {
     if (!inView) return;
-    const t = setInterval(() => setAfter((v) => !v), 3000);
+    const t = setInterval(() => setAfter((v) => !v), 2000);
     return () => clearInterval(t);
   }, [inView, tick]);
   const pick = (v: boolean) => { setAfter(v); setTick((n) => n + 1); };
